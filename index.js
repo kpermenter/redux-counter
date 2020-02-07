@@ -9,9 +9,11 @@ function deepCopy(x) {
 
 // Reducer --> must be pure function --> same output always
 const todoReducer = (state, action) => {
-    console.log("Inside reducer")
-    console.log("State", state)
-    console.log("Action", action)
+    // console.log("Inside reducer")
+    // console.log("State", state)
+    // console.log("Action", action)
+    console.log('Here is the action:', action)
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
     let newState
     // make copy of state so state isn't mutated accidentally
@@ -31,8 +33,12 @@ const todoReducer = (state, action) => {
     }
 
     // remove $1
-    if (action.type === 'REMOVE_1') {
+    else if (action.type === 'REMOVE_1') {
         newState.balance = newState.balance - 1
+    }
+
+    else if (action.type === 'ADD') {
+        newState.balance = newState.balance + action.amount
     }
 
     //for all other actions
@@ -54,6 +60,17 @@ function removeOneFromBalance() {
     })
 }
 
+function addMore() {
+    let amount = window.prompt('How much?')
+    amount = parseInt(amount, 10)
+    if (typeof amount === 'number' && amount >= 0) {
+        store.dispatch({
+            type: 'ADD',
+            amount: amount
+        })
+    }
+}
+
 function render(state) {
     let rootEl = document.getElementById('root')
 
@@ -61,6 +78,7 @@ function render(state) {
         `<h1>Balance: ${state.balance}</h1>
         <button onclick="addOneToBalance()">Add One</button>
         <button onclick="removeOneFromBalance()">Remove One</button>
+        <button onclick="addMore()">Add Custom</button>
         `
     rootEl.innerHTML = html
 }
