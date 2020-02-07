@@ -41,6 +41,14 @@ const todoReducer = (state, action) => {
         newState.balance = newState.balance + action.amount
     }
 
+    else if (action.type === 'ADD_5') {
+        newState.balance = newState.balance + 5
+    }
+
+    else if (action.type === 'REMOVE_5') {
+        newState.balance = newState.balance - 5
+    }
+
     //for all other actions
     return newState
 }
@@ -49,14 +57,27 @@ const todoReducer = (state, action) => {
 const store = Redux.createStore(todoReducer)
 
 function addOneToBalance() {
-  store.dispatch({
-      type: 'ADD_1'
-  })
+    store.dispatch({
+        type: 'ADD_1'
+    })
 }
 
 function removeOneFromBalance() {
     store.dispatch({
         type: 'REMOVE_1'
+    })
+}
+
+function addFiveToBalance() {
+    store.dispatch({
+        type: 'ADD_5'
+    })
+}
+
+
+function removeFiveFromBalance() {
+    store.dispatch({
+        type: 'REMOVE_5'
     })
 }
 
@@ -78,6 +99,8 @@ function render(state) {
         `<h1>Balance: ${state.balance}</h1>
         <button onclick="addOneToBalance()">Add One</button>
         <button onclick="removeOneFromBalance()">Remove One</button>
+        <button onclick="addFiveToBalance()">Add Five</button>
+        <button onclick="removeFiveFromBalance()">Remove Five</button>
         <button onclick="addMore()">Add Custom</button>
         `
     rootEl.innerHTML = html
