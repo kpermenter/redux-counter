@@ -1,13 +1,38 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Redux</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.5/redux.min.js"></script>
-    </head>
 
-    <body>
-        <div id="root"></div>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Simple Counter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 
-        <script src="index.js"></script>
-    </body>
+<body>
+    <div class="app">
+        <h1 id="counterValue">0</h1>
+        <button id="increment">+1</button>
+        <button id="decrement">-1</button>
+        <button id="addFive">+5</button>
+        <button id="subFive">-5</button>
+        <button id="reset">reset</button>
+    </div>
+
+    <select id="colors">
+        <option value="#ff0000">red</option>
+        <option value="#0000ff">blue</option>
+        <option value="#00ff00">green</option>
+    </select>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.1/redux.min.js"></script>
+    <!-- logic -->
+    <script src="reducer.js"></script>
+
+    <!-- render -->
+    <script src="render.js"></script>
+
+    <!-- render/action -->
+    <script src="index.js"></script>
+</body>
+
 </html>

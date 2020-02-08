@@ -1,115 +1,43 @@
-// state = object
-const initialState = {
-    balance: 0
-}
+  
+const { createStore } = Redux;
 
-function deepCopy(x) {
-    return JSON.parse(JSON.stringify(x))
-}
+// Initialize the Redux store by passing it our reducer (defined globally in reducer.js)
+const { subscribe, dispatch, getState } = createStore(reducer);
 
-// Reducer --> must be pure function --> same output always
-const todoReducer = (state, action) => {
-    // console.log("Inside reducer")
-    // console.log("State", state)
-    // console.log("Action", action)
-    console.log('Here is the action:', action)
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+// Re-render the application every time the state changes
+// Here we pass the Redux state to our render method (defined globally in render.js)
+subscribe(() => render(getState()))
 
-    let newState
-    // make copy of state so state isn't mutated accidentally
-    // we are trying to keep todoReducer a "pure" function
-    // newState = deepCopy(state)
-    // let newState = Object.assign({}, state) --> method
-    // let newState = {...state} --> spread object 
-    if (state === undefined) {
-        newState = deepCopy(initialState)
-    } else {
-        newState = deepCopy(state)
-    }
+// Dispatch the "INCREMENT" action every time the +1 button is pressed
+const incrementButton = document.getElementById('increment');
+incrementButton.addEventListener('click', e => dispatch({ type: "INCREMENT" }));
 
-    // add $1
-    if (action.type === 'ADD_1') {
-        newState.balance = newState.balance + 1
-    }
+// Dispatch the "DECREMENT" action when -1 button is pressed
+const decrementButton = document.getElementById('decrement');
+decrementButton.addEventListener('click', e => dispatch({ type: "DECREMENT" }));
 
-    // remove $1
-    else if (action.type === 'REMOVE_1') {
-        newState.balance = newState.balance - 1
-    }
+// Dispatch the "ADDFIVE" action when +5 button is pressed
+const addFiveButton = document.getElementById('addFive');
+addFiveButton.addEventListener('click', e => dispatch({ type: "ADDFIVE" }));
 
-    else if (action.type === 'ADD') {
-        newState.balance = newState.balance + action.amount
-    }
+// Dispatch the "SUBTRACTFIVE" action when -5 button is pressed
+const subFiveButton = document.getElementById('subFive');
+subFiveButton.addEventListener('click', e => dispatch({ type: "SUBFIVE" }));
 
-    else if (action.type === 'ADD_5') {
-        newState.balance = newState.balance + 5
-    }
+// Reset counter with "RESET" action when reset button is pressed
+const resetButton = document.getElementById('reset');
+resetButton.addEventListener('click', e => myPrompt())
 
-    else if (action.type === 'REMOVE_5') {
-        newState.balance = newState.balance - 5
-    }
-
-    //for all other actions
-    return newState
-}
-
-// Create Store --> one big variable --> dispatch action to change value 
-const store = Redux.createStore(todoReducer)
-
-function addOneToBalance() {
-    store.dispatch({
-        type: 'ADD_1'
-    })
-}
-
-function removeOneFromBalance() {
-    store.dispatch({
-        type: 'REMOVE_1'
-    })
-}
-
-function addFiveToBalance() {
-    store.dispatch({
-        type: 'ADD_5'
-    })
-}
-
-
-function removeFiveFromBalance() {
-    store.dispatch({
-        type: 'REMOVE_5'
-    })
-}
-
-function addMore() {
+function myPrompt() {
+    console.log('prompting')
     let amount = window.prompt('How much?')
     amount = parseInt(amount, 10)
-    if (typeof amount === 'number' && amount >= 0) {
-        store.dispatch({
-            type: 'ADD',
-            amount: amount
-        })
-    }
+    dispatch({
+        type: 'RESET',
+        amount: amount
+    })
 }
 
-function render(state) {
-    let rootEl = document.getElementById('root')
-
-    let html =
-        `<h1>Balance: ${state.balance}</h1>
-        <button onclick="addOneToBalance()">Add One</button>
-        <button onclick="removeOneFromBalance()">Remove One</button>
-        <button onclick="addFiveToBalance()">Add Five</button>
-        <button onclick="removeFiveFromBalance()">Remove Five</button>
-        <button onclick="addMore()">Add Custom</button>
-        `
-    rootEl.innerHTML = html
-}
-
-// Subscribe --> listen to state changes
-store.subscribe(() => {
-    // console.log("Subscribe", store.getState())
-    render(store.getState())
-})
-
-render(store.getState())
+// Change color with "COLOR" action when color select is pressed
+const colorDropdown = document.getElementById('colors')
+colorDropdown.addEventListener('change', e => {dispatch({ type: "CHANGECOLOR", color: colorDropdown.value })})
